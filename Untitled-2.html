@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sleep Patterns & Academic Performance</title>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+    }
+
+    header {
+      background-color: #2e86de;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #dcdde1;
+    }
+
+    nav button {
+      border: none;
+      background: none;
+      padding: 15px 25px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    nav button.active {
+      background-color: #2e86de;
+      color: white;
+      font-weight: bold;
+    }
+
+    .page {
+      display: none;
+      padding: 20px;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .chart-container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    footer {
+      background-color: #2e86de;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Sleep Patterns & Academic Performance</h1>
+  </header>
+
+  <nav>
+    <button class="tab-button active" onclick="showPage('page1', event)">Bar Chart</button>
+    <button class="tab-button" onclick="showPage('page2', event)">Pie Chart</button>
+  </nav>
+
+  <!-- Page 1: Bar Chart -->
+  <div id="page1" class="page active">
+    <div class="chart-container">
+      <h2>Average Grades Based on Sleep Duration</h2>
+      <canvas id="barChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Page 2: Pie Chart -->
+  <div id="page2" class="page">
+    <div class="chart-container">
+      <h2>Sleep Hours vs Academic Performance</h2>
+      <canvas id="pieChart"></canvas>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Sleep Study Dashboard</p>
+  </footer>
+
+  <script>
+    // Navigation between pages
+    function showPage(pageId, event) {
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+
+      document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+    }
+
+    // Chart Data
+    const sleepLabels = [
+      'Less than 4 hours',
+      '4-6 hours',
+      '6-8 hours',
+      '8+ hours'
+    ];
+
+    const gradeData = [50, 65, 80, 90]; // Example academic scores
+
+    const backgroundColors = ['#e74c3c', '#f39c12', '#3498db', '#2ecc71'];
+
+    // Bar Chart
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: sleepLabels,
+        datasets: [{
+          label: 'Average Grade (%)',
+          data: gradeData,
+          backgroundColor: backgroundColors
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            title: {
+              display: true,
+              text: 'Grade (%)'
+            }
+          }
+        }
+      }
+    });
+
+    // Pie Chart
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    new Chart(pieCtx, {
+      type: 'pie',
+      data: {
+        labels: sleepLabels,
+        datasets: [{
+          label: 'Academic Performance',
+          data: gradeData,
+          backgroundColor: backgroundColors
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+  </script>
+
+</body>
+</html>
