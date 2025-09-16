@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Workplace Stress & Productivity</title>
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
+      color: #333;
+    }
+
+    header {
+      background-color: #004080;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #ddd;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      padding: 15px 30px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    nav button.active {
+      background-color: #004080;
+      color: white;
+    }
+
+    .page {
+      display: none;
+      padding: 20px;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .chart-container {
+      max-width: 600px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #004080;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Workplace Stress & Productivity</h1>
+  </header>
+
+  <nav>
+    <button class="tab-button active" onclick="showPage('page1')">Bar Chart</button>
+    <button class="tab-button" onclick="showPage('page2')">Pie Chart</button>
+  </nav>
+
+  <!-- Page 1: Bar Chart -->
+  <div id="page1" class="page active">
+    <div class="chart-container">
+      <h2>Productivity vs Stress (Bar Chart)</h2>
+      <canvas id="barChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Page 2: Pie Chart -->
+  <div id="page2" class="page">
+    <div class="chart-container">
+      <h2>Productivity vs Stress (Pie Chart)</h2>
+      <canvas id="pieChart"></canvas>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Workplace Insights Project</p>
+  </footer>
+
+  <script>
+    // Tab switcher
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+
+      document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+    }
+
+    // Chart Data (same for both)
+    const labels = ['Low Stress', 'Moderate Stress', 'High Stress'];
+    const dataValues = [90, 70, 40]; // Productivity in %
+
+    // Bar Chart
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    const barChart = new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Productivity (%)',
+          data: dataValues,
+          backgroundColor: ['green', 'orange', 'red']
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100
+          }
+        }
+      }
+    });
+
+    // Pie Chart
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(pieCtx, {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Productivity (%)',
+          data: dataValues,
+          backgroundColor: ['green', 'orange', 'red']
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+  </script>
+
+</body>
+</html>
